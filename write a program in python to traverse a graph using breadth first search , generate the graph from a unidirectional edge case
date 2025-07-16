@@ -1,0 +1,41 @@
+from collections import defaultdict
+from collections import deque
+def bfs(start,graph):
+  visited = set()
+  queue = deque([start])
+  visited.add(start)
+  while queue:
+      node = queue.popleft()
+      for neighbour in graph[node]:
+          if neighbour not in visited:
+              visited.add(neighbour)
+              queue.append(neighbour)
+
+              print(f"  Added {neighbour} to queue and visited")
+
+      print(f"Queue after visiting neighbors: {list(queue)}")
+      print(f"Visited set: {visited}")
+
+
+
+
+graph = defaultdict(list)
+
+edges = [
+    (0, 1),
+    (0, 2),
+    (1, 2),
+    (2, 3)
+]
+
+
+for u,v in edges:
+    graph[u].append(v)
+    graph[v].append(u)
+
+print("print graph:" + str(graph))
+
+##visited = set()
+print("Calling depth first search")
+
+bfs( 0,graph)
