@@ -1,0 +1,29 @@
+from collections import defaultdict
+def dfs( node,visited):
+    print("Inside dfs")
+    if node in visited:
+        return
+    visited.add(node)
+    print(node)
+    for neighbour in graph[node]:
+        dfs(neighbour,visited)
+graph = defaultdict(list)
+
+edges = [
+    (0, 1),
+    (0, 2),
+    (1, 2),
+    (2, 3)
+]
+
+
+for u,v in edges:
+    graph[u].append(v)
+    graph[v].append(u)
+
+print("print graph:" + str(graph))
+
+visited = set()
+print("Calling depth first search")
+
+dfs( 0,visited)
