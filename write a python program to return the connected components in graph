@@ -1,0 +1,46 @@
+from collections import defaultdict
+from collections import deque
+
+
+def find_connected_components(graph,all_nodes):
+    visited = set()
+    components = []
+
+    def bfs(start):
+        queue = deque([start])
+        visited.add(start)
+        component = [start]
+
+        while queue:
+            node = queue.popleft()
+            for neighbour in graph[node]:
+                if neighbour not in visited:
+                    visited.add(neighbour)
+                    queue.append(neighbour)
+                    component.append(neighbour)
+        return component
+
+    for node in all_nodes:
+        if node not in graph:
+            graph[node] = []
+
+    for node in all_nodes:
+        if node not in visited:
+            component = bfs(node)
+            components.append(component)
+
+    return components
+edges = [
+    (0,1),
+    (1,2),
+    (3,4)
+]
+all_nodes = [1,2,3,4,5]
+graph = defaultdict(list)
+
+for u,v in edges:
+    graph[u].append(v)
+    graph[v].append(u)
+
+components = find_connected_components(graph,all_nodes)
+print(f"The components are {components}")
