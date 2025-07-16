@@ -43,6 +43,10 @@ graph = defaultdict(list)
 for u,v in edges:
     graph[u].append(v)
     graph[v].append(u)
-
-components = find_path(0,2,graph)
-print(f"The path is {components}")
+start = 0
+end = 2
+if start not in graph or end not in graph:
+    print("Start or end not present in graph")
+else:
+    components = find_path(start,end,graph)
+    print(f"The path is {components}")
