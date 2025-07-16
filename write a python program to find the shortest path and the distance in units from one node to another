@@ -1,0 +1,53 @@
+from collections import defaultdict
+from collections import deque
+
+def shorttest_distances_path(start,graph,end):
+    visited = set([start])
+    queue = deque([start])
+    distance = {start:0}
+    parent = {start:None}
+
+    while queue:
+        node = queue.popleft()
+        if node == end:
+            break
+
+        for neighbour in graph[node]:
+            if neighbour not in visited:
+                visited.add(neighbour)
+                parent[neighbour] = node
+                distance[neighbour] = distance[node] + 1
+                queue.append(neighbour)
+
+    if end not in parent:
+        return None,[]
+    path = []
+    current = end
+    while current is not None:
+        path.append(current)
+        current = parent[current]
+
+    path.reverse()
+
+    return distance[end],path
+
+graph = defaultdict(list)
+
+edges = [
+    (0, 1),
+    (0, 2),
+    (1, 2),
+    (2, 3)
+]
+
+
+for u,v in edges:
+    graph[u].append(v)
+    graph[v].append(u)
+
+print("print graph:" + str(graph))
+
+##visited = set()
+print("Calling bsh shortest path first search")
+short_dist ,path= shorttest_distances_path(2,graph,3)
+print(f"Printing the shortest path and distance from node 0 {short_dist} : {[path]}")
