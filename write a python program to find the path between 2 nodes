@@ -1,0 +1,48 @@
+from collections import defaultdict
+from collections import deque
+
+def find_path(start,end,graph):
+    visited = set()
+    visited.add(start)
+    queue = deque([start])
+    parent = {start:None}
+    if start == end:
+        return True
+    while queue:
+        node = queue.popleft()
+        for neighbour in graph[node]:
+           ## if neighbour == end:
+            ##    break
+            if neighbour not in visited:
+                visited.add(neighbour)
+                queue.append(neighbour)
+                parent[neighbour] = node
+
+                if neighbour == end:
+                    break
+    if end not in parent:
+        return None
+    path = []
+    current = end
+    while current is not None:
+        path.append(current)
+        current = parent[current]
+    path.reverse()
+    return path
+
+    ##return False
+
+edges = [
+    (0,1),
+    (1,2),
+    (3,4)
+]
+##all_nodes = [1,2,3,4,5]
+graph = defaultdict(list)
+
+for u,v in edges:
+    graph[u].append(v)
+    graph[v].append(u)
+
+components = find_path(0,2,graph)
+print(f"The path is {components}")
