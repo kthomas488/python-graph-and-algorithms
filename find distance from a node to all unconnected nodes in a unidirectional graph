@@ -1,0 +1,94 @@
+Detective Rust is investigating a homicide and he wants to chase down the murderer. The murderer knows he would definitely get caught if he takes the main roads for fleeing, so he uses the village roads (or side lanes) for running away from the crime scene.
+
+Rust knows that the murderer will take village roads and he wants to chase him down. He is observing the city map, but it doesn't show the village roads (or side lanes) on it and shows only the main roads.
+
+The map of the city is a graph consisting  nodes (labeled  to ) where a specific given node  represents the current position of Rust and the rest of the nodes denote other places in the city, and an edge between two nodes is a main road between two places in the city. It can be suitably assumed that an edge that doesn't exist/isn't shown on the map is a village road (side lane). That means, there is a village road between two nodes  and  iff(if and only if) there is no city road between them.
+
+In this problem, distance is calculated as number of village roads (side lanes) between any two places in the city.
+
+Rust wants to calculate the shortest distance from his position (Node ) to all the other places in the city if he travels only using the village roads (side lanes).
+Hacker - Rank problem
+
+
+import os
+import sys
+from collections import defaultdict
+from collections import deque
+#
+# Complete the rustMurdered function below.
+#
+def rustMurderer(n, roads,s):
+    #
+    # Write your code here.
+    #
+    graph = defaultdict(list)
+    for u,v in roads:
+        graph[u].append(v)
+        graph[v].append(u)
+    
+    village_graph = defaultdict(list)
+    ##print(f"Printing the graph str{graph}")
+    for u in range(1,n+1):
+        for v in range(1,n+1):
+            if u!=v and v not in graph[u]:
+                village_graph[u].append(v)
+    """for u,v in roads:
+        village_graph[u].append(u)
+        village_graph[v].append(v)"""
+    
+    def bfs(start):
+        visited = set()
+        visited.add(start)
+        distances = {start:0}
+            
+        queue = deque([start])
+            
+        while queue:
+            node = queue.popleft()
+                
+            for neighbour in village_graph[node]:
+                if neighbour not in visited:
+                    visited.add(neighbour)
+                    distances[neighbour] = distances[node] + 1
+                    queue.append(neighbour)
+        return distances
+    
+    
+    
+    ##istances = []
+    ##for nodes in range(1,n+1):
+    distance=bfs(s)
+    result = []
+    ##distances.append(distance)
+    for i in range(1,n+1):
+        if i == s:
+            continue
+        result.append(distance.get(i,-1))   
+    return result
+    ##print(f"Value of village graph str{village_graph}")
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    t = int(input())
+
+    for t_itr in range(t):
+        nm = input().split()
+
+        n = int(nm[0])
+
+        m = int(nm[1])
+
+        roads = []
+
+        for _ in range(m):
+            roads.append(list(map(int, input().rstrip().split())))
+
+        s = int(input())
+
+        result = rustMurderer(n, roads,s)
+
+        fptr.write(' '.join(map(str, result)))
+        fptr.write('\n')
+
+    fptr.close()
