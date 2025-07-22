@@ -1,0 +1,17 @@
+ Find the minimum number of operations required to reach target from start.
+
+Working backward from target is more efficient:
+
+If target is even, you came from target // 2
+
+If target is odd, you came from target - 1
+
+def min_operations(start, target):
+    operations = 0
+    while target > start:
+        if target % 2 == 0:
+            target //= 2
+        else:
+            target += 1  # because (odd number -1) will make it even
+        operations += 1
+    return operations + (start - target)
