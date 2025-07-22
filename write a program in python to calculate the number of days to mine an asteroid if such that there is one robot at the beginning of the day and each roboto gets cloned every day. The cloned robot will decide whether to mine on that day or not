@@ -1,0 +1,19 @@
+###write a program in python to calculate the number of days to mine an asteroid if such that there is one robot at the beginning of the day and each roboto gets cloned every day. 
+##The cloned robot will decide whether to mine on that day or not 
+import math
+
+def min_days_to_mine_with_clone_cost(n):
+    min_days = float('inf')
+
+    # Try cloning for 0 to 60 days
+    for clone_days in range(0, 61):
+        robots = 1
+        total = 0
+        for _ in range(clone_days):
+            # All robots clone: double count
+            robots *= 2
+        # After clone_days, use all robots to mine
+        mining_days = math.ceil(n / robots)
+        total_days = clone_days + mining_days
+        min_days = min(min_days, total_days)
+    return min_days
