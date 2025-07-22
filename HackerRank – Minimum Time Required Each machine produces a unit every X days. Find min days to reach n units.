@@ -1,0 +1,22 @@
+HackerRank – Minimum Time Required
+Each machine produces a unit every X days. Find min days to reach n units.
+
+def minTime(machines, goal):
+    # Search range: min and max production rate bounds
+    low = 1
+    high = max(machines) * goal  # worst case
+
+    while low < high:
+        mid = (low + high) // 2
+        total = sum(mid // m for m in machines)
+        
+        if total >= goal:
+            high = mid  # try smaller day
+        else:
+            low = mid + 1  # need more days
+
+    return low
+machines = [2,5,6]
+goal = 10
+
+minTime(machines,goal)
