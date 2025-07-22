@@ -1,0 +1,22 @@
+list = [2,10,1,10,5]
+
+num_dict = {}
+target = int(input("Enter the target number:"))
+
+list.sort()
+print(f"sorted array is {list}")
+for i in range(0,len(list)-2):
+   ## num = target - list[i]
+   left = i+1
+   right = len(list) -1
+
+   while(left < right):
+       sum = list[i] + list[left] + list[right]
+       if sum == target :
+           print(f"triplet found at indices {i} {left} {right} ")
+           left = left + 1
+           right = right -1
+       elif sum < target:
+           left = left + 1
+       else:
+           right = right -1
