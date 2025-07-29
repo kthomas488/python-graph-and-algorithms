@@ -9,19 +9,28 @@ When a moving car collides with a stationary car, the number of collisions incre
 After a collision, the cars involved can no longer move and will stay at the point where they collided. Other than that, cars cannot change their state or direction of motion.
 
 Return the total number of collisions that will happen on the road.
-class Solution:
-    def countCollisions(self, directions: str) -> int:
-        n = len(directions)
-        # Remove leading L and trailing R, which never collide
-        i, j = 0, n - 1
-        while i < n and directions[i] == 'L':
-            i += 1
-        while j >= 0 and directions[j] == 'R':
-            j -= 1
+def collisions_on_road(directions):
+    total_collisions = 0
+    stack = []
+    for car in directions:
+        if car == "R":
+            stack.append("R")
+        elif car == "S":
+            while stack and stack[-1] == "L":
+                total_collisions = total_collisions + 1
+                stack.append("S")
+        elif car == "L":
+            if stack and stack[-1] == "R":
+                total_collisions = total_collisions + 2
+                stack.pop()
+                while stack and stack[-1] == "R":
+                    total_collisions = total_collisions + 1
+                    stack.pop()
+                stack.append("S")
+            elif stack and stack[-1] == "S":
+                total_collisions = total_collisions + 1
+                stack.append("S")
+            else:
+                stack.append("L")
         
-        # Only count 'R' and 'L' and 'S' in the middle
-        collisions = 0
-        for k in range(i, j + 1):
-            if directions[k] != 'S':
-                collisions += 1
-        return collisions
+
