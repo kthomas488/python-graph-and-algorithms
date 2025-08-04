@@ -1,0 +1,11 @@
+Reverse bits of a 32 bit unsigned integer
+
+class Solution:
+    def reverseBits(self, n: int) -> int:
+        result = 0
+        for _ in range(32):
+            # Shift result to left to make space
+            result = (result << 1) | (n & 1)
+            # Shift input to right to process next bit
+            n >>= 1
+        return result
